@@ -3,12 +3,11 @@
  */
 package fuzz.ssml.rest
 
-import kotlin.test.Test
-import kotlin.test.assertNotNull
+import kotlin.test.*
 
 class AppTest {
-    @Test fun testAppHasAGreeting() {
-        val classUnderTest = App()
-        assertNotNull(classUnderTest.greeting, "app should have a greeting")
+    @Test fun testSSML() {
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<speak version=\"1.0\" xml:lang=\"en-us\"><voice xml:lang=\"en-us\" xml:gender=\"Female\" name=\"en-US-JessaNeural\">1: 23456. 789? 0!</voice></speak>", ssml())
     }
 }

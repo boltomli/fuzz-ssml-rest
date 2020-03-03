@@ -3,13 +3,24 @@
  */
 package fuzz.ssml.rest
 
-class App {
-    val greeting: String
-        get() {
-            return "Hello world."
-        }
-}
+import org.dom4j.DocumentHelper
 
 fun main(args: Array<String>) {
-    println(App().greeting)
+    println(ssml())
+}
+
+fun ssml(lang:String = "en-us",
+         gender:String = "Female",
+         name:String = "en-US-JessaNeural",
+         text:String = "1: 23456. 789? 0!") :String {
+    val document = DocumentHelper.createDocument()
+    val speak = document.addElement("speak")
+    speak.addAttribute("version", "1.0")
+    speak.addAttribute("xml:lang", lang)
+    val voice = speak.addElement("voice")
+    voice.addAttribute("xml:lang", lang)
+    voice.addAttribute("xml:gender", gender)
+    voice.addAttribute("name", name)
+    voice.addText(text)
+    return document.asXML()
 }
