@@ -25,5 +25,12 @@ class AppTest {
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<speak version=\"1.0\" xml:lang=\"zh-cn\"><voice xml:lang=\"zh-cn\" xml:gender=\"Male\" name=\"zh-CN-YunyangNeural\">并非所有服务都适用于所有市场。</voice></speak>",
                 ssml(lang = Language.CHS.value, gender = Gender.MALE.value, name = "zh-CN-YunyangNeural", text = "并非所有服务都适用于所有市场。"))
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<speak version=\"1.0\" xml:lang=\"en-us\"><voice xml:lang=\"en-us\" xml:gender=\"Female\" name=\"en-US-JessaNeural\"></voice></speak>",
+                ssml(text = ""))
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<speak version=\"1.0\" xml:lang=\"en-us\"><voice xml:lang=\"en-us\" xml:gender=\"Female\" name=\"en-US-JessaNeural\">&amp;&lt;&gt;\t\n" +
+                "\"'</voice></speak>",
+                ssml(text = "&<>\t\n\"'"))
     }
 }
