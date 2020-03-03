@@ -5,12 +5,23 @@ package fuzz.ssml.rest
 
 import org.dom4j.DocumentHelper
 
+enum class Language(val id: Int, val value: String) {
+    ENU(0x0409,"en-us"),
+    PTB(0x0416,"pt-br"),
+    CHS(0x0804, "zh-cn"),
+}
+
+enum class Gender(val value: String) {
+    FEMALE("Female"),
+    MALE("Male"),
+}
+
 fun main(args: Array<String>) {
     println(ssml())
 }
 
-fun ssml(lang:String = "en-us",
-         gender:String = "Female",
+fun ssml(lang:String = Language.ENU.value,
+         gender:String = Gender.FEMALE.value,
          name:String = "en-US-JessaNeural",
          text:String = "1: 23456. 789? 0!") :String {
     val document = DocumentHelper.createDocument()
