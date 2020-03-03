@@ -4,6 +4,7 @@
 package fuzz.ssml.rest
 
 import kotlin.test.*
+import fr.xgouchet.elmyr.Forge
 
 class AppTest {
     @Test fun testSSML() {
@@ -32,5 +33,18 @@ class AppTest {
                 "<speak version=\"1.0\" xml:lang=\"en-us\"><voice xml:lang=\"en-us\" xml:gender=\"Female\" name=\"en-US-JessaNeural\">&amp;&lt;&gt;\t\n" +
                 "\"'</voice></speak>",
                 ssml(text = "&<>\t\n\"'"))
+    }
+
+    @Test fun testFuzzText() {
+        var text: String = ""
+        var forger = Forge()
+        forger.seed = System.nanoTime()
+        val length: Int = forger.aTinyInt()
+        for (i in 1..length) {
+            val word: String = forger.aString()
+            val space: String = forger.aWhitespaceChar().toString()
+            text = text.plus(word).plus(space)
+        }
+        assertNotNull(ssml(text = text.trim()))
     }
 }

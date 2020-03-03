@@ -16,6 +16,7 @@ repositories {
     // Use jcenter for resolving dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
+    maven { url = uri("https://jitpack.io") }
 }
 
 dependencies {
@@ -32,6 +33,8 @@ dependencies {
 
     // Use the Kotlin JUnit integration.
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
+
+    testImplementation("com.github.xgouchet:Elmyr:1.0.0")
 }
 
 application {
