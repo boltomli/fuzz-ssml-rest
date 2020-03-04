@@ -6,9 +6,10 @@ package fuzz.ssml.rest
 import kotlin.test.*
 import fr.xgouchet.elmyr.Forge
 import java.io.File
+import kotlin.random.Random
 
 class AppTest {
-    @Test fun testSSML() {
+    @Test fun testBasicSsml() {
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<speak version=\"1.0\" xml:lang=\"en-us\"><voice xml:lang=\"en-us\" xml:gender=\"Female\" name=\"en-US-JessaNeural\">1: 23456. 789? 0!</voice></speak>",
                 ssml())
@@ -34,13 +35,18 @@ class AppTest {
                 "<speak version=\"1.0\" xml:lang=\"en-us\"><voice xml:lang=\"en-us\" xml:gender=\"Female\" name=\"en-US-JessaNeural\">&amp;&lt;&gt;\t\n" +
                 "\"'</voice></speak>",
                 ssml(text = "&<>\t\n\"'"))
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<speak version=\"1.0\" xml:lang=\"en-us\"><voice xml:lang=\"en-us\" xml:gender=\"Female\" name=\"en-US-JessaNeural\"></voice></speak>",
+                ssml(text = ""))
     }
 
     @Test fun testFuzzText() {
-        var text: String = ""
-        var forger = Forge()
+        val seed = System.nanoTime()
+        val forger = Forge()
         forger.seed = System.nanoTime()
-        val length: Int = forger.aTinyInt()
+        var text: String = ""
+        val rand = Random(seed)
+        val length = rand.nextInt(1, 8)
         for (i in 1..length) {
             val word: String = forger.aString()
             val space: String = forger.aWhitespaceChar().toString()
@@ -58,5 +64,27 @@ class AppTest {
         val synth = synthesize(body)
         assertNotNull(synth)
         //File("174000494876383.bin").writeBytes(synth)
+    }
+
+    @Test fun testFuzzSsmlSynth() {
+        val seed = System.nanoTime()
+        val forger = Forge()
+        forger.seed = seed
+        val name = forger.aKeyFrom(Voices)
+        val gender = Voices[name].toString()
+        val lang = name.substring(0, 5).toLowerCase()
+        var text: String = ""
+        val rand = Random(seed)
+        val length = rand.nextInt(1, 8)
+        for (i in 1..length) {
+            val word: String = forger.aString()
+            val space: String = forger.aWhitespaceChar().toString()
+            text = text.plus(word).plus(space)
+        }
+        val body = ssml(lang = lang, gender = gender, name = name, text = text.trim())
+        assertNotNull(body)
+        val synth = synthesize(body)
+        assertNotNull(synth)
+        //File(forger.seed.toString() + ".bin").writeBytes(synth)
     }
 }

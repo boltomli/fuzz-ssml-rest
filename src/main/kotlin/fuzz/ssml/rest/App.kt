@@ -24,6 +24,14 @@ fun main(args: Array<String>) {
     synthesize(ssml())
 }
 
+val Voices = mapOf(
+        "en-US-GuyNeural" to Gender.MALE.value,
+        "en-US-JessaNeural" to Gender.FEMALE.value,
+        "en-US-ZiraRUS" to Gender.FEMALE.value,
+        "pt-BR-FranciscaNeural" to Gender.FEMALE.value,
+        "zh-CN-YunyangNeural" to Gender.MALE.value
+)
+
 fun ssml(lang:String = Language.ENU.value,
          gender:String = Gender.FEMALE.value,
          name:String = "en-US-JessaNeural",
