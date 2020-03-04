@@ -3,7 +3,11 @@
  */
 package fuzz.ssml.rest
 
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.dom4j.DocumentHelper
+import java.io.IOException
 
 enum class Language(val id: Int, val value: String) {
     ENU(0x0409,"en-us"),
@@ -17,7 +21,7 @@ enum class Gender(val value: String) {
 }
 
 fun main(args: Array<String>) {
-    println(ssml())
+    synthesize(ssml())
 }
 
 fun ssml(lang:String = Language.ENU.value,
@@ -34,4 +38,40 @@ fun ssml(lang:String = Language.ENU.value,
     voice.addAttribute("name", name)
     voice.addText(text)
     return document.asXML()
+}
+
+fun synthesize(body: String) :ByteArray? {
+    val tokenIssuer = "https://southeastasia.api.cognitive.microsoft.com/sts/v1.0/issueToken"
+    val synthesizer = "https://southeastasia.tts.speech.microsoft.com/cognitiveservices/v1"
+    val apiKey = System.getenv("MYKEY")
+
+    if (apiKey.isNullOrEmpty()) {
+        println("Set MYKEY environment variable first")
+        return null
+    } else {
+        val client = OkHttpClient()
+        var token = ""
+        val tokenRequest = Request.Builder()
+                .url(tokenIssuer)
+                .header("Ocp-Apim-Subscription-Key", apiKey)
+                .post("".toRequestBody())
+                .build()
+        client.newCall(tokenRequest).execute().use { response ->
+            if (!response.isSuccessful) throw IOException("Unexpected code $response")
+            token = response.body!!.string()
+        }
+        val synthRequest = Request.Builder()
+                .url(synthesizer)
+                .header("Content-type", "application/ssml+xml")
+                .addHeader("X-Microsoft-OutputFormat", "riff-24khz-16bit-mono-pcm")
+                .addHeader("Authorization", "Bearer $token")
+                .addHeader("X-Search-AppId", "APPID")
+                .addHeader("X-Search-ClientID", "CLIENTID")
+                .post(body = body.toRequestBody())
+                .build()
+        client.newCall(synthRequest).execute().use { response ->
+            if (!response.isSuccessful) throw IOException("Unexpected code $response")
+            return response.body!!.bytes()
+        }
+    }
 }
