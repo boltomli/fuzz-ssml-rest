@@ -5,6 +5,7 @@ package fuzz.ssml.rest
 
 import kotlin.test.*
 import fr.xgouchet.elmyr.Forge
+import java.io.File
 
 class AppTest {
     @Test fun testSSML() {
@@ -45,6 +46,8 @@ class AppTest {
             val space: String = forger.aWhitespaceChar().toString()
             text = text.plus(word).plus(space)
         }
-        assertNotNull(ssml(text = text.trim()))
+        val ssml = ssml(lang = Language.CHS.value, gender = Gender.MALE.value, name = "zh-CN-YunyangNeural", text = text.trim())
+        assertNotNull(ssml)
+        File(forger.seed.toString()).writeText(ssml)
     }
 }
