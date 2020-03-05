@@ -8,6 +8,11 @@ import fr.xgouchet.elmyr.Forge
 import java.io.File
 import kotlin.random.Random
 
+val KnownUnsupported = mapOf(
+        "&#11;" to " ",
+        "&#12;" to " "
+)
+
 class AppTest {
     @Test fun testBasicSsml() {
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
@@ -81,7 +86,10 @@ class AppTest {
             val space: String = forger.aWhitespaceChar().toString()
             text = text.plus(word).plus(space)
         }
-        val body = ssml(lang = lang, gender = gender, name = name, text = text.trim())
+        var body = ssml(lang = lang, gender = gender, name = name, text = text.trim())
+        for (s in KnownUnsupported.keys) {
+            body = body.replace(s, KnownUnsupported[s].toString())
+        }
         assertNotNull(body)
         val synth = synthesize(body)
         assertNotNull(synth)
