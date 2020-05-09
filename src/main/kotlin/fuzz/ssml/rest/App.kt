@@ -26,7 +26,7 @@ fun main(args: Array<String>) {
 
 val Voices = mapOf(
         "en-US-GuyNeural" to Gender.MALE.value,
-        "en-US-JessaNeural" to Gender.FEMALE.value,
+        "en-US-AriaNeural" to Gender.FEMALE.value,
         "en-US-ZiraRUS" to Gender.FEMALE.value,
         "pt-BR-FranciscaNeural" to Gender.FEMALE.value,
         "zh-CN-YunyangNeural" to Gender.MALE.value
@@ -34,7 +34,7 @@ val Voices = mapOf(
 
 fun ssml(lang:String = Language.ENU.value,
          gender:String = Gender.FEMALE.value,
-         name:String = "en-US-JessaNeural",
+         name:String = "en-US-AriaNeural",
          text:String = "1: 23456. 789? 0!") :String {
     val document = DocumentHelper.createDocument()
     val speak = document.addElement("speak")
