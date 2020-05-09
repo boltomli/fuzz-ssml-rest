@@ -67,7 +67,11 @@ class AppTest {
         val body = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<speak version=\"1.0\" xml:lang=\"zh-cn\"><voice xml:lang=\"zh-cn\" xml:gender=\"Male\" name=\"zh-CN-YunyangNeural\">먔ᛎ듮欓瑶⭃쇱悩짒㕓뒸拋蜏Ꮒ</voice></speak>"
         val synth = synthesize(body)
-        assertNotNull(synth)
+        System.getenv("MYKEY")?.let {
+                assertNotNull(synth)
+        } ?: run {
+                assertNull(synth)
+        }
         //File("174000494876383.bin").writeBytes(synth)
     }
 
@@ -92,7 +96,11 @@ class AppTest {
         }
         assertNotNull(body)
         val synth = synthesize(body)
-        assertNotNull(synth)
+        System.getenv("MYKEY")?.let {
+                assertNotNull(synth)
+        } ?: run {
+                assertNull(synth)
+        }
         //File(forger.seed.toString() + ".bin").writeBytes(synth)
     }
 }
