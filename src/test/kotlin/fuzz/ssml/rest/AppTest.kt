@@ -16,13 +16,13 @@ val KnownUnsupported = mapOf(
 class AppTest {
     @Test fun testBasicSsml() {
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<speak version=\"1.0\" xml:lang=\"en-us\"><voice xml:lang=\"en-us\" xml:gender=\"Female\" name=\"en-US-JessaNeural\">1: 23456. 789? 0!</voice></speak>",
+                "<speak version=\"1.0\" xml:lang=\"en-us\"><voice xml:lang=\"en-us\" xml:gender=\"Female\" name=\"en-US-AriaNeural\">1: 23456. 789? 0!</voice></speak>",
                 ssml())
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<speak version=\"1.0\" xml:lang=\"en-us\"><voice xml:lang=\"en-us\" xml:gender=\"Female\" name=\"en-US-ZiraRUS\">1: 23456. 789? 0!</voice></speak>",
                 ssml(name = "en-US-ZiraRUS"))
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<speak version=\"1.0\" xml:lang=\"en-us\"><voice xml:lang=\"en-us\" xml:gender=\"Female\" name=\"en-US-JessaNeural\">abcdefg</voice></speak>",
+                "<speak version=\"1.0\" xml:lang=\"en-us\"><voice xml:lang=\"en-us\" xml:gender=\"Female\" name=\"en-US-AriaNeural\">abcdefg</voice></speak>",
                 ssml(text = "abcdefg"))
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<speak version=\"1.0\" xml:lang=\"pt-br\"><voice xml:lang=\"pt-br\" xml:gender=\"Female\" name=\"pt-BR-FranciscaNeural\">1: 23456. 789? 0!</voice></speak>",
@@ -34,14 +34,14 @@ class AppTest {
                 "<speak version=\"1.0\" xml:lang=\"zh-cn\"><voice xml:lang=\"zh-cn\" xml:gender=\"Male\" name=\"zh-CN-YunyangNeural\">并非所有服务都适用于所有市场。</voice></speak>",
                 ssml(lang = Language.CHS.value, gender = Gender.MALE.value, name = "zh-CN-YunyangNeural", text = "并非所有服务都适用于所有市场。"))
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<speak version=\"1.0\" xml:lang=\"en-us\"><voice xml:lang=\"en-us\" xml:gender=\"Female\" name=\"en-US-JessaNeural\"></voice></speak>",
+                "<speak version=\"1.0\" xml:lang=\"en-us\"><voice xml:lang=\"en-us\" xml:gender=\"Female\" name=\"en-US-AriaNeural\"></voice></speak>",
                 ssml(text = ""))
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<speak version=\"1.0\" xml:lang=\"en-us\"><voice xml:lang=\"en-us\" xml:gender=\"Female\" name=\"en-US-JessaNeural\">&amp;&lt;&gt;\t\n" +
+                "<speak version=\"1.0\" xml:lang=\"en-us\"><voice xml:lang=\"en-us\" xml:gender=\"Female\" name=\"en-US-AriaNeural\">&amp;&lt;&gt;\t\n" +
                 "\"'</voice></speak>",
                 ssml(text = "&<>\t\n\"'"))
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<speak version=\"1.0\" xml:lang=\"en-us\"><voice xml:lang=\"en-us\" xml:gender=\"Female\" name=\"en-US-JessaNeural\"></voice></speak>",
+                "<speak version=\"1.0\" xml:lang=\"en-us\"><voice xml:lang=\"en-us\" xml:gender=\"Female\" name=\"en-US-AriaNeural\"></voice></speak>",
                 ssml(text = ""))
     }
 
