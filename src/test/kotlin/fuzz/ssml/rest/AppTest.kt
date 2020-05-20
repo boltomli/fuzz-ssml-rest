@@ -69,10 +69,10 @@ class AppTest {
         val synth = synthesize(body)
         System.getenv("MYKEY")?.let {
                 assertNotNull(synth)
+                //File("174000494876383.bin").writeBytes(synth)
         } ?: run {
                 assertNull(synth)
         }
-        //File("174000494876383.bin").writeBytes(synth)
     }
 
     @Test fun testFuzzSsmlSynth() {
@@ -98,9 +98,33 @@ class AppTest {
         val synth = synthesize(body)
         System.getenv("MYKEY")?.let {
                 assertNotNull(synth)
+                //File(forger.seed.toString() + ".bin").writeBytes(synth)
         } ?: run {
                 assertNull(synth)
         }
-        //File(forger.seed.toString() + ".bin").writeBytes(synth)
+    }
+
+    @Test fun testFuzzSsmlSynthLongText() {
+        val seed = System.nanoTime()
+        val forger = Forge()
+        forger.seed = seed
+        val name = forger.aKeyFrom(Voices)
+        val gender = Voices[name].toString()
+        val lang = name.substring(0, 5).toLowerCase()
+        val rand = Random(seed)
+        val length = rand.nextInt(1000, 100000)
+        val text: String = forger.aString(size = length)
+        var body = ssml(lang = lang, gender = gender, name = name, text = text.trim())
+        for (s in KnownUnsupported.keys) {
+            body = body.replace(s, KnownUnsupported[s].toString())
+        }
+        assertNotNull(body)
+        val synth = synthesize(body)
+        System.getenv("MYKEY")?.let {
+            assertNotNull(synth)
+            //File(forger.seed.toString() + ".bin").writeBytes(synth)
+        } ?: run {
+            assertNull(synth)
+        }
     }
 }

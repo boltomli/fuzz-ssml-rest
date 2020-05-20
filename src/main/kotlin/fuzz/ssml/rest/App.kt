@@ -8,6 +8,7 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.dom4j.DocumentHelper
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 enum class Language(val id: Int, val value: String) {
     ENU(0x0409,"en-us"),
@@ -57,7 +58,10 @@ fun synthesize(body: String) :ByteArray? {
         println("Set MYKEY environment variable first")
         return null
     } else {
-        val client = OkHttpClient()
+        val client = OkHttpClient().newBuilder()
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(600, TimeUnit.SECONDS)
+                .build()
         var token = ""
         val tokenRequest = Request.Builder()
                 .url(tokenIssuer)
