@@ -6,7 +6,6 @@ package fuzz.ssml.rest
 import kotlin.test.*
 import fr.xgouchet.elmyr.Forge
 import java.io.File
-import kotlin.random.Random
 
 val KnownUnsupported = mapOf(
         "&#11;" to " ",
@@ -46,15 +45,13 @@ class AppTest {
     }
 
     @Test fun testFuzzText() {
-        val seed = System.nanoTime()
         val forger = Forge()
         forger.seed = System.nanoTime()
         var text: String = ""
-        val rand = Random(seed)
-        val length = rand.nextInt(1, 8)
+        val length = forger.anInt(min = 1, max = 8)
         for (i in 1..length) {
             val word: String = forger.aString()
-            val space: String = forger.aWhitespaceChar().toString()
+            val space: String = forger.aWhitespaceString()
             text = text.plus(word).plus(space)
         }
         val ssml = ssml(lang = Language.CHS.value, gender = Gender.MALE.value, name = "zh-CN-YunyangNeural", text = text.trim())
@@ -76,18 +73,16 @@ class AppTest {
     }
 
     @Test fun testFuzzSsmlSynth() {
-        val seed = System.nanoTime()
         val forger = Forge()
-        forger.seed = seed
+        forger.seed = System.nanoTime()
         val name = forger.aKeyFrom(Voices)
         val gender = Voices[name].toString()
         val lang = name.substring(0, 5).toLowerCase()
         var text: String = ""
-        val rand = Random(seed)
-        val length = rand.nextInt(1, 8)
+        val length = forger.anInt(min = 1, max = 8)
         for (i in 1..length) {
             val word: String = forger.aString()
-            val space: String = forger.aWhitespaceChar().toString()
+            val space: String = forger.aWhitespaceString()
             text = text.plus(word).plus(space)
         }
         var body = ssml(lang = lang, gender = gender, name = name, text = text.trim())
@@ -105,14 +100,12 @@ class AppTest {
     }
 
     @Test fun testFuzzSsmlSynthLongText() {
-        val seed = System.nanoTime()
         val forger = Forge()
-        forger.seed = seed
+        forger.seed = System.nanoTime()
         val name = forger.aKeyFrom(Voices)
         val gender = Voices[name].toString()
         val lang = name.substring(0, 5).toLowerCase()
-        val rand = Random(seed)
-        val length = rand.nextInt(1000, 100000)
+        val length = forger.anInt(min = 1000, max = 100000)
         val text: String = forger.aString(size = length)
         var body = ssml(lang = lang, gender = gender, name = name, text = text.trim())
         for (s in KnownUnsupported.keys) {
