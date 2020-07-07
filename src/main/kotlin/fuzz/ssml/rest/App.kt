@@ -50,8 +50,9 @@ fun ssml(lang:String = Language.ENU.value,
 }
 
 fun synthesize(body: String) :ByteArray? {
-    val tokenIssuer = "https://southeastasia.api.cognitive.microsoft.com/sts/v1.0/issueToken"
-    val synthesizer = "https://southeastasia.tts.speech.microsoft.com/cognitiveservices/v1"
+    val region = System.getenv("MYREGION")
+    val tokenIssuer = "https://$region.api.cognitive.microsoft.com/sts/v1.0/issueToken"
+    val synthesizer = "https://$region.tts.speech.microsoft.com/cognitiveservices/v1"
     val apiKey = System.getenv("MYKEY")
 
     if (apiKey.isNullOrEmpty()) {
