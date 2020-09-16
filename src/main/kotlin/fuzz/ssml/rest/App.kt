@@ -21,7 +21,7 @@ enum class Gender(val value: String) {
     MALE("Male"),
 }
 
-fun main(args: Array<String>) {
+fun main() {
     synthesize(ssml())
 }
 
