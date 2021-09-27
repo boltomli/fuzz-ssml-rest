@@ -77,7 +77,7 @@ class AppTest {
         forger.seed = System.nanoTime()
         val name = forger.aKeyFrom(Voices)
         val gender = Voices[name].toString()
-        val lang = name.substring(0, 5).toLowerCase()
+        val lang = name.substring(0, 5).lowercase()
         var text: String = ""
         val length = forger.anInt(min = 1, max = 8)
         for (i in 1..length) {
@@ -104,7 +104,7 @@ class AppTest {
         forger.seed = System.nanoTime()
         val name = forger.aKeyFrom(Voices)
         val gender = Voices[name].toString()
-        val lang = name.substring(0, 5).toLowerCase()
+        val lang = name.substring(0, 5).lowercase()
         val length = forger.anInt(min = 1000, max = 100000)
         val text: String = forger.aString(size = length)
         var body = ssml(lang = lang, gender = gender, name = name, text = text.trim())

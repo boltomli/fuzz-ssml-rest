@@ -6,7 +6,7 @@
 
 plugins {
     // Apply the Kotlin JVM plugin to add support for Kotlin.
-    id("org.jetbrains.kotlin.jvm") version "1.4.10"
+    id("org.jetbrains.kotlin.jvm") version "1.5.31"
 
     // Apply the application plugin to add support for building a CLI application.
     application
@@ -15,7 +15,7 @@ plugins {
 repositories {
     // Use jcenter for resolving dependencies.
     // You can declare any Maven/Ivy/file repository here.
-    jcenter()
+    mavenCentral()
     maven { url = uri("https://jitpack.io") }
 }
 
@@ -27,7 +27,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     implementation("org.dom4j:dom4j:2.1.3")
-    implementation("com.squareup.okhttp3:okhttp:4.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.9.1")
 
     // Use the Kotlin test library.
     testImplementation("org.jetbrains.kotlin:kotlin-test")
@@ -35,10 +35,10 @@ dependencies {
     // Use the Kotlin JUnit integration.
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 
-    testImplementation("com.github.xgouchet:Elmyr:1.2.0")
+    testImplementation("com.github.xgouchet:Elmyr:1.3.1")
 }
 
 application {
     // Define the main class for the application.
-    mainClassName = "fuzz.ssml.rest.AppKt"
+    mainClass.set("fuzz.ssml.rest.AppKt")
 }
